@@ -260,12 +260,11 @@ public class GameManager {
     }
 
     public void actualizarEstadoJuego() {
-        if(estadoJuego != EstadoJuego.REUNION){
-            return;
-        }
 
         if(estadoJuego == EstadoJuego.REUNION && !votacionFinalizada()){
             return;
+        } else if(estadoJuego == EstadoJuego.REUNION) {
+            reubicarJugadores();
         }
 
         int numImpostores = 0;
@@ -284,13 +283,17 @@ public class GameManager {
         } else {
             estadoJuego = EstadoJuego.JUGANDO;
         }
-        if(estadoJuego == EstadoJuego.JUGANDO){
-            reubicarJugadores();
-        }
-        if (tareasCompletadas()) {
-            estadoJuego = EstadoJuego.GANAN_TRIPULANTES;
-        }
+    }
 
+    public boolean tareasCompletadas() {
+        for (List<Tarea> listaTareas : mapSalasListaTareas.values()) {
+            for (Tarea tarea : listaTareas) {
+                if(!tarea.isFunciona()){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void reubicarJugadores() {
@@ -351,14 +354,27 @@ public class GameManager {
         return jugador.isImpostor();
     }
 
-    public boolean tareasCompletadas() {
-        for (List<Tarea> listaTareas : mapSalasListaTareas.values()) {
-            for (Tarea tarea : listaTareas) {
-                if(!tarea.isFunciona()){
-                    return false;
-                }
+    public boolean destrozarTarea(String nombreJugador, String nombreTarea) {
+        Jugador jugador = mapJugadores.get(nombreJugador);
+        if(jugador == null || nombreTarea == null || nombreTarea.isEmpty()){
+            return false;
+        }
+        if(!jugador.isVivo() || !jugador.isImpostor()){
+            return false;
+        }
+        List<Tarea> listaTareas = mapSalasListaTareas.get(jugador.getSala());
+        if(listaTareas == null || listaTareas.isEmpty()){
+            return false;
+        }
+        for (Tarea tarea : listaTareas) {
+            if(tarea.getNombre().equalsIgnoreCase(nombreTarea)){
+                if(tarea.isFunciona()){
+                    tarea.setFunciona(false);
+                    return true;
+                };
+                break;
             }
         }
-        return true;
+        return false;
     }
 }

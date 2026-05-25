@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +35,18 @@ public class TxatClientController {
 
     @FXML
     private TextField messageTextField;
+
+    @FXML
+    private Pane paneCocina;
+
+    @FXML
+    private Pane paneDespensa;
+
+    @FXML
+    private Pane paneDormitorio;
+
+    @FXML
+    private Pane panePasillo;
 
     @FXML
     private Button sendButton;
@@ -79,19 +94,25 @@ public class TxatClientController {
         String idBoton = botonElegido.getText().toLowerCase();
         String message = null;
 
+        limpiarRecuadros();
+
         if (idBoton.equalsIgnoreCase("dormitorio")){
             cocina.setDisable(true);
             dormitorio.setDisable(true);
+            pintarRecuadro(paneDormitorio);
         }
         if (idBoton.equalsIgnoreCase("cocina")){
             dormitorio.setDisable(true);
             cocina.setDisable(true);
+            pintarRecuadro(paneCocina);
         }
         if (idBoton.equalsIgnoreCase("despensa")){
             despensa.setDisable(true);
+            pintarRecuadro(paneDespensa);
         }
         if (idBoton.equalsIgnoreCase("pasillo")){
             pasillo.setDisable(true);
+            pintarRecuadro(panePasillo);
         }
 
 
@@ -113,6 +134,38 @@ public class TxatClientController {
                 break;
         }
         out.println(message);
+    }
+
+    private void limpiarRecuadros() {
+        paneDormitorio.getChildren().clear();
+        paneCocina.getChildren().clear();
+        paneDespensa.getChildren().clear();
+        panePasillo.getChildren().clear();
+    }
+
+    private void pintarRecuadro(Pane paneDestino) {
+        Pane pane = new Pane();
+
+        pane.setMaxWidth(64);
+        pane.setMinWidth(64);
+        pane.setPrefWidth(64);
+
+        pane.setMaxHeight(16);
+        pane.setMinHeight(16);
+        pane.setPrefHeight(16);
+
+        pane.setLayoutX(30);
+        pane.setLayoutY(30);
+
+        pane.setStyle("-fx-background-color: white; -fx-border-color: black;");
+
+        Text texto = new Text("Javi");
+        texto.setWrappingWidth(64);
+        texto.setTextAlignment(TextAlignment.CENTER);
+        texto.setLayoutY(texto.getFont().getSize());
+        pane.getChildren().add(texto);
+
+        paneDestino.getChildren().add(pane);
     }
 
 
