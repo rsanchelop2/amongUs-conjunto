@@ -163,6 +163,7 @@ public class TxatClientHandler extends Thread {
         if (GameManager.getInstance().tareasCompletadas()) {
             broadcast("GANAN LOS TRIPULANTES POR COMPLETAR TODAS LAS TAREAS");
         }
+        GameManager.getInstance().actualizarEstadoJuego();
     }
 
     private void destrozaTarea(String nombreTarea) {

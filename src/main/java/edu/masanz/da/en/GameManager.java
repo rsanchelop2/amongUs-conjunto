@@ -277,7 +277,7 @@ public class GameManager {
                 numNoImpostores++;
             }
         }
-        if(numImpostores == 0){
+        if(numImpostores == 0 || tareasCompletadas()){
             estadoJuego = EstadoJuego.GANAN_TRIPULANTES;
         } else if (numImpostores >= numNoImpostores) {
             estadoJuego = EstadoJuego.GANAN_IMPOSTORES;
@@ -287,6 +287,10 @@ public class GameManager {
         if(estadoJuego == EstadoJuego.JUGANDO){
             reubicarJugadores();
         }
+        if (tareasCompletadas()) {
+            estadoJuego = EstadoJuego.GANAN_TRIPULANTES;
+        }
+
     }
 
     private void reubicarJugadores() {
