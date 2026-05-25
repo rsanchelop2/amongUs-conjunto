@@ -346,4 +346,15 @@ public class GameManager {
         }
         return jugador.isImpostor();
     }
+
+    public boolean tareasCompletadas() {
+        for (List<Tarea> listaTareas : mapSalasListaTareas.values()) {
+            for (Tarea tarea : listaTareas) {
+                if(!tarea.isFunciona()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

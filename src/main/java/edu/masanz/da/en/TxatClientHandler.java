@@ -160,6 +160,9 @@ public class TxatClientHandler extends Thread {
         } else {
             out.println("NO SE HA PODIDO ARREGLAR ["+nombreTarea+"]");
         }
+        if (GameManager.getInstance().tareasCompletadas()) {
+            broadcast("GANAN LOS TRIPULANTES POR COMPLETAR TODAS LAS TAREAS");
+        }
     }
 
     private void destrozaTarea(String nombreTarea) {
